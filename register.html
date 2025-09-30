@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register - Create Your Account</title>
+  
+  <!-- jQuery + Validation -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+  
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="design.css">
+</head>
+<body>
+  <div class="container">
+    <div class="forms-container">
+      <h2>Create Account</h2>
+      
+      <form id="registerForm">
+        <input type="text" name="name" placeholder="Full Name" required>
+        <input type="email" name="email" placeholder="Email Address" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <input type="password" name="confirm_password" placeholder="Confirm Password" required>
+        
+        <button type="submit" class="btn-success">Create Account</button>
+        
+        <div class="toggle-link">
+          Already have an account? <a href="login.html">Login here</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- jQuery Validation Script -->
+  <script>
+    $(document).ready(function(){
+      $("#registerForm").validate({
+        // Real-time validation
+        onkeyup: function(element, event) {
+          if (event.which !== 9) {
+            this.element(element);
+          }
+        },
+        onfocusout: function(element) {
+          this.element(element);
+        },
+        
+        rules: {
+          name: {
+            required: true,
+            minlength: 2
+          },
+          email: {
+            required: true,
+            email: true
+          },
+          password: {
+            required: true,
+            minlength: 5
+          },
+          confirm_password: {
+            required: true,
+            equalTo: "[name='password']"
+          }
+        },
+        
+        messages: {
+          name: {
+            required: "Please enter your name",
+            minlength: "Name must be at least 2 characters"
+          },
+          email: "Please enter a valid email address",
+          password: {
+            required: "Please provide a password",
+            minlength: "Password must be at least 5 characters long"
+          },
+          confirm_password: {
+            required: "Please confirm your password",
+            equalTo: "Passwords do not match"
+          }
+        },
+        
+        errorPlacement: function(error, element) {
+          error.insertAfter(element);
+        },
+        
+        submitHandler: function(form) {
+          // Add loading state
+          const submitBtn = $(form).find('button[type="submit"]');
+          const originalText = submitBtn.text();
+          submitBtn.addClass('loading').text('Creating Account...');
+          
+          // Simulate registration process
+          setTimeout(function() {
+            submitBtn.removeClass('loading').text(originalText);
+            alert("Registration successful! Welcome aboard!");
+            window.location.href = "login.html";
+          }, 1500);
+        }
+      });
+    });
+  </script>
+</body>
+</html>
